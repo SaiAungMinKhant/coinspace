@@ -15,7 +15,7 @@ app.get('/:crypto', (req, res) => {
   })
     .then(response => {
       // Handle the API response
-      res.json(response.data);
+      res.json(response.data.data);
     })
     .catch(error => {
       // Handle any errors that occurred during the request
