@@ -11,20 +11,43 @@ import Paper from '@mui/material/Paper';
 const BasicTable = () => {
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/BTC');
-        setData(response.data);
-      } catch (error) {
-        console.error('An error occurred', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:3001/BTC');
+  //       setData(response.data);
+  //     } catch (error) {
+  //       console.error('An error occurred', error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  console.log(data)
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        'http://localhost:3001/',
+        {
+          headers: {
+            'X-CMC_PRO_API_KEY': process.env.REACT_APP_API_KEY
+          },
+          params: {
+            start: 1,
+            limit: 10,
+            price_min: 0,
+            price_max: 1000000,
+            // Include other query parameters as needed
+          }
+        }
+      );
+      setData(response.data.data);
+      console.log(response.data.data); // Log the fetched data
+    } catch (error) {
+      console.error('An error occurred', error);
+    }
+  };
+  
 
   return (
     <TableContainer component={Paper}>

@@ -5,13 +5,34 @@ const axios = require('axios')
 
 dotenv.config()
 
-app.get('/:crypto', (req, res) => {
-  const crypto = req.params.crypto; // Get the value of the 'crypto' parameter from the URL
+// app.get('/:crypto', (req, res) => {
+//   const crypto = req.params.crypto; // Get the value of the 'crypto' parameter from the URL
 
-  axios.get(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=${crypto}`, {
+//   axios.get(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=${crypto}`, {
+//     headers: {
+//       'X-CMC_PRO_API_KEY': process.env.API_KEY
+//     }
+//   })
+//     .then(response => {
+//       // Handle the API response
+//       res.json(response.data.data);
+//     })
+//     .catch(error => {
+//       // Handle any errors that occurred during the request
+//       res.status(500).json({ error: 'An error occurred' });
+//     });
+// });
+
+app.get('/', (req, res) => {
+  const { limit = 10 } = req.query; // Default limit to 10 if not provided in query parameters
+
+  axios.get(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest`, {
+    params: {
+      limit, // Pass the limit parameter to the API request
+    },
     headers: {
-      'X-CMC_PRO_API_KEY': process.env.API_KEY
-    }
+      'X-CMC_PRO_API_KEY': process.env.API_KEY,
+    },
   })
     .then(response => {
       // Handle the API response
@@ -22,6 +43,7 @@ app.get('/:crypto', (req, res) => {
       res.status(500).json({ error: 'An error occurred' });
     });
 });
+
 
 app.listen(3001, () => {
   console.log(`listening to port 3001`)
