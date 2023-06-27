@@ -26,10 +26,7 @@ dotenv.config()
 app.get('/', (req, res) => {
   const { limit = 10 } = req.query; // Default limit to 10 if not provided in query parameters
 
-  axios.get(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest`, {
-    params: {
-      limit, // Pass the limit parameter to the API request
-    },
+  axios.get(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest`, {
     headers: {
       'X-CMC_PRO_API_KEY': process.env.API_KEY,
     },
