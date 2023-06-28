@@ -1,47 +1,39 @@
-const express = require('express')
+const express = require('express');
 const app = express();
-const dotenv = require('dotenv')
-const axios = require('axios')
+const dotenv = require('dotenv');
+const axios = require('axios');
 
-dotenv.config()
+dotenv.config();
 
-// app.get('/:crypto', (req, res) => {
-//   const crypto = req.params.crypto; // Get the value of the 'crypto' parameter from the URL
-
-//   axios.get(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=${crypto}`, {
-//     headers: {
-//       'X-CMC_PRO_API_KEY': process.env.API_KEY
-//     }
-//   })
-//     .then(response => {
-//       // Handle the API response
-//       res.json(response.data.data);
-//     })
-//     .catch(error => {
-//       // Handle any errors that occurred during the request
-//       res.status(500).json({ error: 'An error occurred' });
-//     });
-// });
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 app.get('/', (req, res) => {
-  const { limit = 10 } = req.query; // Default limit to 10 if not provided in query parameters
-
-  axios.get(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest`, {
-    headers: {
-      'X-CMC_PRO_API_KEY': process.env.API_KEY,
-    },
-  })
+  axios
+    .get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
+      params: {
+        start: 1,
+        limit: 101,
+        convert: 'USD',
+        sort: 'market_cap',
+      },
+      headers: {
+        'X-CMC_PRO_API_KEY': process.env.API_KEY,
+      },
+    })
     .then(response => {
-      // Handle the API response
-      res.json(response.data.data);
+      const data = response.data.data;
+      res.json(data);
     })
     .catch(error => {
-      // Handle any errors that occurred during the request
       res.status(500).json({ error: 'An error occurred' });
     });
 });
 
-
 app.listen(3001, () => {
-  console.log(`listening to port 3001`)
-})
+  console.log('Listening on port 3001');
+});

@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 
-const BasicTable = () => {
+const Table = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -23,51 +16,43 @@ const BasicTable = () => {
 
     fetchData();
   }, []);
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       'http://localhost:3001/',
-  //       {
-  //         headers: {
-  //           'X-CMC_PRO_API_KEY': process.env.REACT_APP_API_KEY
-  //         }
-  //       }
-  //     );
-  //     setData(data.data); // Log the fetched data
-  //   } catch (error) {
-  //     console.error('An error occurred', error);
-  //   }
-  // };
   console.log(data)
   
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>#</TableCell>
-            <TableCell align="right">Coin</TableCell>
-            <TableCell align="right">Price</TableCell>
-            <TableCell align="right">24hr</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row}</TableCell>
-              <TableCell align="right">{row}</TableCell>
-              <TableCell align="right">{row}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>1h%</th>
+          <th>24h%</th>
+          <th>7d%</th>
+          <th>Market Cap</th>
+          <th>Volume (24h)</th>
+          <th>Circulating Supply</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map(item => (
+          <tr key={item.id}>
+            <td>{item.cmc_rank}</td>
+            <td>{item.name}</td>
+            <td>${item.quote.USD.price}</td>
+            <td>{item.quote.USD.percent_change_1h}%</td>
+            <td>{item.quote.USD.percent_change_24h}%</td>
+            <td>{item.quote.USD.percent_change_7d}%</td>
+            <td>${item.quote.USD.market_cap}</td>
+            <td>${item.quote.USD.volume_24h}</td>
+            <td>{item.circulating_supply}{item.symbol}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
   );
 };
 
-export default BasicTable;
+export default Table;
