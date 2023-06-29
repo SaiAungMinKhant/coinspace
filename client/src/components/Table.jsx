@@ -20,7 +20,7 @@ const Table = () => {
   
 
   return (
-    <div>
+    <div className='bg-yellow-300 w-4/5 m-auto'>
     <table>
       <thead>
         <tr>
@@ -40,13 +40,13 @@ const Table = () => {
           <tr key={item.id}>
             <td>{item.cmc_rank}</td>
             <td>{item.name}</td>
-            <td>${item.quote.USD.price}</td>
-            <td>{item.quote.USD.percent_change_1h}%</td>
-            <td>{item.quote.USD.percent_change_24h}%</td>
-            <td>{item.quote.USD.percent_change_7d}%</td>
-            <td>${item.quote.USD.market_cap}</td>
-            <td>${item.quote.USD.volume_24h}</td>
-            <td>{item.circulating_supply}{item.symbol}</td>
+            <td>${item.quote.USD.price.toFixed(2)}</td>
+            <td>{item.quote.USD.percent_change_1h.toFixed(2)}%</td>
+            <td>{item.quote.USD.percent_change_24h.toFixed(2)}%</td>
+            <td>{item.quote.USD.percent_change_7d.toFixed(2)}%</td>
+            <td>${Math.round(item.quote.USD.market_cap)}</td>
+            <td>${Math.round(item.quote.USD.volume_24h)}</td>
+            <td>{Math.round(item.circulating_supply)}{item.symbol}</td>
           </tr>
         ))}
       </tbody>
