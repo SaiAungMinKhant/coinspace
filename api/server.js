@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
     .get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
       params: {
         start: 1,
-        limit: 101,
+        limit: 100,
         convert: 'USD',
         sort: 'market_cap',
       },

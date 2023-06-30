@@ -20,33 +20,33 @@ const Table = () => {
   
 
   return (
-    <div className='bg-yellow-300 w-4/5 m-auto'>
-    <table>
+    <div className='bg-black w-4/5 m-auto'>
+    <table className='m-auto text-white my-8'>
       <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Price</th>
-          <th>1h%</th>
-          <th>24h%</th>
-          <th>7d%</th>
-          <th>Market Cap</th>
-          <th>Volume (24h)</th>
-          <th>Circulating Supply</th>
+        <tr className='text-left text-xs border-y border-cyan-900'>
+          <th className='p-2'>#</th>
+          <th className='p-2'>Name</th>
+          <th className='p-2'>Price</th>
+          <th className='p-2'>1h%</th>
+          <th className='p-2'>24h%</th>
+          <th className='p-2'>7d%</th>
+          <th className='p-2'>Market Cap</th>
+          <th className='p-2'>Volume (24h)</th>
+          <th className='p-2'>Circulating Supply</th>
         </tr>
       </thead>
       <tbody>
         {data.map(item => (
-          <tr key={item.id}>
-            <td>{item.cmc_rank}</td>
-            <td>{item.name}</td>
-            <td>${item.quote.USD.price.toFixed(2)}</td>
-            <td>{item.quote.USD.percent_change_1h.toFixed(2)}%</td>
-            <td>{item.quote.USD.percent_change_24h.toFixed(2)}%</td>
-            <td>{item.quote.USD.percent_change_7d.toFixed(2)}%</td>
-            <td>${Math.round(item.quote.USD.market_cap)}</td>
-            <td>${Math.round(item.quote.USD.volume_24h)}</td>
-            <td>{Math.round(item.circulating_supply)}{item.symbol}</td>
+          <tr className='text-sm border-y border-cyan-900' key={item.id}>
+            <td className='p-2 leading-10'>{item.cmc_rank}</td>
+            <td className='p-2 leading-10'>{item.name}</td>
+            <td className='p-2 leading-10'>${item.quote.USD.price.toFixed(2)}</td>
+            <td className='p-2 leading-10'>{item.quote.USD.percent_change_1h.toFixed(2)}%</td>
+            <td className='p-2 leading-10'>{item.quote.USD.percent_change_24h.toFixed(2)}%</td>
+            <td className='p-2 leading-10'>{item.quote.USD.percent_change_7d.toFixed(2)}%</td>
+            <td className='p-2 leading-10'>${Math.round(item.quote.USD.market_cap)}</td>
+            <td className='p-2 leading-10'>${Math.round(item.quote.USD.volume_24h)}</td>
+            <td className='p-2 leading-10'>{Math.round(item.circulating_supply)}{item.symbol}</td>
           </tr>
         ))}
       </tbody>
