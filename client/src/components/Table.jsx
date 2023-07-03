@@ -25,31 +25,46 @@ const Table = () => {
     }
     setSortConfig({ key, direction });
   };
+
+  const getValueByNestedKey = (object, key) => {
+    const keys = key.split('.');
+    let value = object;
+    for (const k of keys) {
+      value = value[k];
+    }
+    return value;
+  };
+
+  const formatPrice = (price) => {
+    const numericPrice = typeof price === 'string' ? parseFloat(price.replace(/[^0-9.-]+/g, '')) : price;
+    const precision = sortConfig.direction === 'asc' ? 7 : 2;
+    return numericPrice.toFixed(precision);
+  };
   
+
   const sortedData = [...data].sort((a, b) => {
     if (sortConfig.key === null) {
       return 0;
     }
-  
-    let aValue = a[sortConfig.key];
-    let bValue = b[sortConfig.key];
-  
-    // Handle sorting for different column types
-    if (sortConfig.key === 'Price' || sortConfig.key === 'Market Cap' || sortConfig.key === 'Volume (24h)') {
-      aValue = parseFloat(aValue.replace(/[^0-9.-]+/g, ''));
-      bValue = parseFloat(bValue.replace(/[^0-9.-]+/g, ''));
+
+    const aValue = getValueByNestedKey(a, sortConfig.key);
+    const bValue = getValueByNestedKey(b, sortConfig.key);
+
+    if (
+      sortConfig.key === 'Price' ||
+      sortConfig.key === 'Market Cap' ||
+      sortConfig.key === 'Volume (24h)'
+    ) {
+      return sortConfig.direction === 'asc' ? aValue - bValue : bValue - aValue;
+    } else if (sortConfig.key === 'name') {
+      return sortConfig.direction === 'asc'
+        ? aValue.localeCompare(bValue)
+        : bValue.localeCompare(aValue);
     } else {
-      aValue = parseFloat(aValue);
-      bValue = parseFloat(bValue);
-    }
-  
-    if (sortConfig.direction === 'asc') {
-      return aValue > bValue ? 1 : -1;
-    } else {
-      return aValue < bValue ? 1 : -1;
+      return sortConfig.direction === 'asc' ? aValue - bValue : bValue - aValue;
     }
   });
-  
+
   return (
     <div className='bg-black w-4/5 m-auto'>
       <table className='m-auto text-white my-8'>
@@ -89,13 +104,13 @@ const Table = () => {
             <tr className='text-sm border-y border-cyan-900' key={item.id}>
               <td className='p-2 leading-10'>{item.cmc_rank}</td>
               <td className='p-2 leading-10'>{item.name}</td>
-              <td className='p-2 leading-10'>${item.quote.USD.price.toFixed(2)}</td>
+              <td className='p-2 leading-10'>${formatPrice(item.quote.USD.price)}</td>
               <td className='p-2 leading-10'>{item.quote.USD.percent_change_1h.toFixed(2)}%</td>
               <td className='p-2 leading-10'>{item.quote.USD.percent_change_24h.toFixed(2)}%</td>
               <td className='p-2 leading-10'>{item.quote.USD.percent_change_7d.toFixed(2)}%</td>
               <td className='p-2 leading-10'>${Math.round(item.quote.USD.market_cap)}</td>
               <td className='p-2 leading-10'>${Math.round(item.quote.USD.volume_24h)}</td>
-              <td className='p-2 leading-10'>{Math.round(item.circulating_supply)}{item.symbol}</td>
+              <td className='p-2 leading-10'>{Math.round(item.circulating_supply)} {item.symbol}</td>
             </tr>
           ))}
         </tbody>
