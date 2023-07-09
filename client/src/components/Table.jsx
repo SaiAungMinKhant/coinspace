@@ -66,8 +66,8 @@ const Table = () => {
   });
 
   return (
-    <div className='bg-black w-4/5 m-auto'>
-      <table className='m-auto text-white my-8'>
+    <div className='w-4/5 m-auto'>
+      <table className='m-auto my-8'>
         <thead>
           <tr className='text-left text-xs border-y border-cyan-900'>
             <th className='p-2 cursor-pointer' onClick={() => handleSort('cmc_rank')}>
