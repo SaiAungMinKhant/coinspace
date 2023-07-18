@@ -14,10 +14,12 @@
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.13.4",
     "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
-    "roboto": "^0.8.2"
+    "roboto": "^0.8.2",
+    "vue-cli": "^2.9.6"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

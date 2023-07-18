@@ -9,7 +9,7 @@ const Table = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://anxious-lapel-lamb.cyclic.app");
+        const response = await axios.get(import.meta.env.VITE_API_URL);
         setData(response.data);
       } catch (error) {
         console.error("An error occurred", error);
@@ -37,15 +37,14 @@ const Table = () => {
   };
 
   const formatPrice = (price) => {
-    
     const numericPrice =
       typeof price === "string"
         ? parseFloat(price.replace(/[^0-9.-]+/g, ""))
         : price;
     const precision = sortConfig.direction === "asc" ? 9 : 2;
-    const options = {  maximumFractionDigits: precision   }
-    const newPrice = Intl.NumberFormat("en-US",options).format(numericPrice);
-    return newPrice 
+    const options = { maximumFractionDigits: precision };
+    const newPrice = Intl.NumberFormat("en-US", options).format(numericPrice);
+    return newPrice;
   };
 
   const sortedData = [...data].sort((a, b) => {
@@ -136,7 +135,9 @@ const Table = () => {
           {sortedData.map((item) => (
             <tr className="text-xs border-y border-cyan-900" key={item.id}>
               <td className="p-2 leading-10">{item.cmc_rank}</td>
-              <td className="p-2 leading-10">{item.name} {item.symbol}</td>
+              <td className="p-2 leading-10">
+                {item.name} {item.symbol}
+              </td>
               <td className="p-2 leading-10 text-center">
                 ${formatPrice(item.quote.USD.price)}
               </td>
